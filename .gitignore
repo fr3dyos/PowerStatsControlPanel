@@ -1,4 +1,4 @@
-testmongo.js
-src/client_secret.json
-src/.env
-src/auth.js
+/testmongo.js
+/src/client_secret.json
+/src/auth.js
+/src/.env
