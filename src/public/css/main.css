@@ -1,0 +1,113 @@
+body {
+  /*https://uigradients.com/#Lawrencium*/
+  background: #0f0c29; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #24243e,
+    #002e4a,
+    #0f0c29
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #24243e,
+    #002e4a,
+    #0f0c29
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  font-family: "Titillium Web", sans-serif;
+  color: #e9e9e9;
+}
+
+.navbar-brand {
+  font-family: "Titillium Web", bold;
+  font-size: 1.5rem;
+}
+
+.nav-link {
+  text-transform: uppercase;
+  font-family: "Titillium Web", sans-serif;
+}
+.img-responsive {
+  height: auto;
+  width: auto;
+  max-height: 72px;
+  max-width: 250px;
+}
+
+header img {
+  width: 60%;
+}
+.bg-dark {
+  background: #000000; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #434343,
+    #000000
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #434343,
+    #000000
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+thead {
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: bold;
+}
+
+.btn-primary {
+  background: #00a2ff; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #4fc7ff,
+    #00a2ff
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #4fc7ff,
+    #00a2ff
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: #3a3a3a;
+  font-weight: bold;
+  border: rgba(0, 0, 0, 0.4);
+}
+
+.btn-success {
+  background: #00c220; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #3fe059,
+    #00c220
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #3fe059,
+    #00c220
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: #3a3a3a;
+  font-weight: bold;
+  border: rgba(0, 0, 0, 0.4);
+}
+
+.btn-secondary {
+  background: #f12711; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #f5af19,
+    #f12711
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #f5af19,
+    #f12711
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: #3a3a3a;
+  font-weight: bold;
+  border: rgba(0, 0, 0, 0.6);
+}

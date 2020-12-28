@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <%- include ('partials/head') %>
+</head>
+
+<body>
+  <%- include ('partials/navigation') %>
+
+    <div class="container">
+      <div class="form-group">
+        <table style="width: 100%;" class="table table-bordered table-dark " style="display: none;"
+          id="loadedInformation">
+
+          <%- table %>
+        </table>
+        <br>
+
+      </div>
+
+    </div>
+
+    <%- include ('partials/footer') %>
+
+      <script> $(document).ready(function () { 
+          var pathCurrent=window.location.pathname; 
+          if (pathCurrent.substring(0,6)==="/team-" ) 
+          { 
+            var teamName=pathCurrent.substring(6); 
+            console.log("Team Name: " + teamName);
+            
+            try {
+              getList(teamName);
+              $("#pageTitle").html(teamName);
+            } catch (err) {
+              alert("no Team Found"); 
+              console.log(err); 
+            } 
+          } 
+        }); </script>
+
+</body>
+
+</html>

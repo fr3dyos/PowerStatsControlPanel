@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Page</title>
+  <%- include ('partials/head') %>
+</head>
+
+<body>
+  <%- include ('partials/navigation') %>
+    <div class="container">
+      <div class="row">
+        <div class="col-md">
+          <div class="card animated flipInY">
+            <div class="card-header bg-dark text-white text-center">
+              <h4 id="pid"></h4>
+            </div>
+            <div class="card-body bg-dark">
+              <form action="">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-sm">
+                      <label for="fname">Nome:</label>
+                      <input class="form-control" type="text" id="fname" name="fname">
+                      <label for="nname">Apelido:</label>
+
+                      <input class="form-control" type="text" id="nname" name="nname"><br>
+                    </div>
+
+                    <div class="col-sm">
+                      <label for="country">País:</label>
+                      <input class="form-control" type="text" id="country" name="country">
+                      <label for="team">Time:</label>
+                      <input class="form-control" type="text" id="team" name="team"><br>
+                    </div>
+
+                    <div class="col-sm">
+                      <label for="gender">Gênero:</label>
+                      <input class="form-control" type="text" id="gender" name="gender">
+                      <label for="pnumber">Numero:</label>
+                      <input class="form-control" type="text" id="pnumber" name="pnumber"><br>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="row">
+                <button class="btn btn-primary btn-block" onclick=<%=btnFunction %>>
+                  <%- btnTag %>
+                </button>
+                <button class="btn btn-secondary" onclick="deletePlayer();">
+                  DELETE
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <%- include ('partials/footer') %>
+</body>
+
+</html>
