@@ -1,10 +1,10 @@
-## PowerStatsControlPanel
-# About
+# PowerStatsControlPanel
+## About
 Project of a webApp to manage Ultimate Frisbee statistics from tournaments
 using MongoDB (Atlas) and Nodejs
 <br>
 
-# Missing: 
+## Missing: 
 <br>
 - Login authentication is not working 
 - Create an open page to read only data
