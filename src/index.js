@@ -68,7 +68,7 @@ function newConnection(socket) {
   socket.on("getScheduleSheets", getFromSheets);
   socket.on("getLogSheets", getFromSheets);
   socket.on("setList", setList);
-  socket.on("sendFullSchedule", setNewSchedule);
+  socket.on("setSchedule", setSchedule);
   socket.on("getPlayer", getPlayerFromDB);
   socket.on("updatePlayer", updatePlayerToDB);
   socket.on("deletePlayer", deletePlayerFromDB);
@@ -92,28 +92,24 @@ function newConnection(socket) {
   }
 
   async function setList(data) {
-    if (confirm("Certeza que quer enviar a info para DB?")) {
-      console.log("Sending data to database");
-      var flag = await Atlas.setList(data);
-      if (flag) {
-        console.log("Data was send to database succesfully");
-        alert("Dados enviados com sucesso!");
-      } else {
-        console.log("Error while sending data to database");
-        alert("Erro no envio de dados!");
-      }
+    console.log("Sending data to database");
+    var flag = await Atlas.setList2db(data);
+    if (flag) {
+      console.log("Data was send to database succesfully");
+      socket.emit("success","Lista adicionada com sucesso");
+    } else {
+      console.log("Error while sending data to database");
     }
   }
 
-  async function setNewSchedule(data) {
+  async function setSchedule(data) {
     console.log("Sending data to database");
-    var flag = await Atlas.schedule2db(data);
+    var flag = await Atlas.setSchedule2db(data);
     if (flag) {
       console.log("Data was send to database succesfully");
-      alert("Dados enviados com sucesso!");
+      socket.emit("success","Planilha adicionada com sucesso");
     } else {
       console.log("Error while sending data to database");
-      alert("Erro no envio de dados!");
     }
   }
 
@@ -134,11 +130,9 @@ function newConnection(socket) {
     var flag = await Atlas.updatePlayer(player);
     if (flag) {
       console.log("Data was send to database succesfully");
-      alert("Dados enviados com sucesso!");
-      await socket.emit("updatedPlayer", player.name);
+      socket.emit("success","Dados do jogador atualizados "+player.name);
     } else {
       console.log("Error while sending data to database");
-      alert("Erro no envio de dados!");
     }
   }
   async function deletePlayerFromDB(player) {
@@ -146,11 +140,9 @@ function newConnection(socket) {
     var flag = await Atlas.deletePlayer(player);
     if (flag) {
       console.log("Data was delete from database succesfully");
-      alert("Dados enviados com sucesso!");
-      await socket.emit("deletedPlayer", player.name);
+      socket.emit("success","Dados do jogador pagados "+player.name);
     } else {
       console.log("Error while deleting data to database");
-      alert("Erro no envio de dados!");
     }
   }
 
@@ -158,12 +150,10 @@ function newConnection(socket) {
     console.log("Sending data to database");
     var flag = await Atlas.setPlayer(player);
     if (flag) {
-      console.log("Data was send to database succesfully");
-      alert("Dados enviados com sucesso!");
-      await socket.emit("addedPlayer", player.name);
+      console.log("Data was send to database succesfully");      
+      socket.emit("success","Dados do jogador adicionados "+player.name);
     } else {
       console.log("Error while sending data to database");
-      alert("Erro no envio de dados!");
     }
   }
 }

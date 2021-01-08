@@ -2,6 +2,7 @@ var socket;
 var dataPlayers;
 var playersFromSS;
 var scheduleFromSS;
+var logFromSS;
 
 // Start only when document ready
 $(document).ready(function () {
@@ -12,19 +13,13 @@ $(document).ready(function () {
   socket.on("scheduleFromSheets", scheduleFromSheets);
   socket.on("LogFromSheets", logFromSheets);
   socket.on("teamData", getTeam);
+  socket.on("success", function (action) {
+    console.log(action);
+    alert(action);
+  });
 
   socket.on("playerData", playerInfoRecieved);
-  socket.on("addedPlayer", function (name) {
-    alert(name + " info adicionada");
-  });
-  socket.on("updatedPlayer", function (name) {
-    alert(name + " info atualizada");
-  });
-  socket.on("deletedPlayer", function (name) {
-    alert(name + " info deletada");
-    window.location.replace("/");
-  });
-
+  
   var pathCurrent = window.location.pathname;
   if (pathCurrent.substring(0, 8) === "/player-") {
     var playerId = pathCurrent.substring(8);
@@ -37,6 +32,8 @@ $(document).ready(function () {
     }
   }
 });
+
+/*******************************/
 
 /************     CLIENT FUNCTIONS     *************/
 /************ recieving *************/
@@ -149,7 +146,7 @@ function getLogSheets() {
   $("#loadedInformation").empty();
 }
 
-function getList(team) {
+function getListBtn(team) {
   console.log("Getting full team: " + team);
   socket.emit("getList", team);
 }
@@ -159,43 +156,53 @@ function getPlayer(playerId) {
   socket.emit("getPlayer", playerId);
 }
 
-
-function getSchedule(team) {
+function getScheduleBtn(team) {
   console.log("Getting full team: " + team);
   socket.emit("getTeamPlayers", team);
 }
 
-// ******************** send functions
+// ******************** set functions
 //
 function updatePlayer() {
-  
-  let player = {};
-  player.name = $("#fname").val();
-  player.team = $("#team").val();
-  player.nickname = $("#nname").val();
-  player.number = $("#pnumber").val();
-  player.country = $("#country").val();
-  player.gender = $("#gender").val();
-  player.temp_id = $("#pid").html().substring(4);
-  console.log("updating player Info: " + player.name);
-  socket.emit("updatePlayer", player);
+  if (confirm("Certeza?")) {
+    let player = {};
+    player.name = $("#fname").val();
+    player.team = $("#team").val();
+    player.nickname = $("#nname").val();
+    player.number = $("#pnumber").val();
+    player.country = $("#country").val();
+    player.gender = $("#gender").val();
+    player.temp_id = $("#pid").html().substring(4);
+    console.log("updating player Info: " + player.name);
+    socket.emit("updatePlayer", player);
+  }
 }
 
-function sendData() {
-  console.log("Sending: All players' data");
-  socket.emit("setList", playersFromSS);
+function setListBtn() {
+  if (confirm("Certeza?")) {
+    console.log("Sending: All players' data");
+    socket.emit("setList", playersFromSS);
+  }
 }
 
-function sendScheduleData() {
-  console.log("Sending: Schedule data");
-  socket.emit("sendFullSchedule", scheduleFromSS);
+function setScheduleBtn() {
+  if (confirm("Certeza?")) {
+    console.log("Sending: Schedule data");
+    socket.emit("setSchedule", scheduleFromSS);
+  }
+}
+function setLogBtn() {
+  if (confirm("Certeza?")) {
+    console.log("Sending: Log data");
+    socket.emit("setLog", logFromSS);
+  }
 }
 
 function deletePlayer() {
-  let player = {};
-  player.name = $("#fname").val();
-  player.temp_id = $("#pid").html().substring(4);
-  if (confirm("Are you sure?")) {
+  if (confirm("certeza?")) {
+    let player = {};
+    player.name = $("#fname").val();
+    player.temp_id = $("#pid").html().substring(4);
     console.log("deleting player Info: " + player.name);
     socket.emit("deletePlayer", player);
   } else {
@@ -204,13 +211,15 @@ function deletePlayer() {
 }
 
 function addNewPlayer() {
-  let player = {};
-  player.name = $("#fname").val();
-  player.team = $("#team").val();
-  player.nickname = $("#nname").val();
-  player.number = $("#pnumber").val();
-  player.country = $("#country").val();
-  player.gender = $("#gender").val();
-  console.log("Adding new player: " + player.name);
-  socket.emit("addNewPlayer", player);
+  if (confirm("Are you sure?")) {
+    let player = {};
+    player.name = $("#fname").val();
+    player.team = $("#team").val();
+    player.nickname = $("#nname").val();
+    player.number = $("#pnumber").val();
+    player.country = $("#country").val();
+    player.gender = $("#gender").val();
+    console.log("Adding new player: " + player.name);
+    socket.emit("addNewPlayer", player);
+  }
 }

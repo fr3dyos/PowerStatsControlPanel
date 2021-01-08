@@ -14,7 +14,7 @@ const collectionPlayers = "Players"; //name of the table
 const collectionSchedule = "Schedule"; //name of the table
 const collectionLog = "Log"; //name of the table
 
-async function data2db(dataPlayers, content, auth) {
+async function setList2db(dataPlayers, content, auth) {
   console.log("Uploading to DB");
   try {
     if (!client.isConnected()) {
@@ -31,7 +31,7 @@ async function data2db(dataPlayers, content, auth) {
   }
 }
 
-async function schedule2db(dataSchedule, content, auth) {
+async function setSchedule2db(dataSchedule, content, auth) {
   console.log("Uploading Schedule to DB");
   try {
     if (!client.isConnected()) {
@@ -147,7 +147,7 @@ async function getPlayer(playerid, content, auth) {
   }
 }
 
-async function getTeamPlayers(teamName, content, auth) {
+async function getList(teamName, content, auth) {
   try {
     console.log("Getting team info");
     if (!client.isConnected()) {
@@ -174,11 +174,11 @@ async function getTeamPlayers(teamName, content, auth) {
 }
 
 module.exports = {
-  data2db,
+  setList2db,
+  setSchedule2db,
   updatePlayer,
   getPlayer,
   setPlayer,
-  getTeamPlayers,
+  getList,
   deletePlayer,
-  schedule2db
 };

@@ -67,10 +67,11 @@ function listM2H(array) {
 
 function scheduleS2H(array) {
   var htmlTable =
-    "<thead><tr><th>Jogo</th><th>Campo </th><th>Time A</th><th>Gols A</th><th>Gols B</th><th>Time B</th><th>Data</th> </tr></thead>";
+    "<thead><tr><th>Jogo</th><th>Campo</th><th>Time A</th><th>Gols A</th><th>Gols B</th><th>Time B</th><th>Data</th> </tr></thead>";
   htmlTable += "<tbody>";
   array.forEach(function (element) {
     htmlTable += "       <tr>";
+    console.log(element);
     for (var prop in element) {
       htmlTable += "<td>";
       htmlTable += element[prop];
@@ -78,6 +79,7 @@ function scheduleS2H(array) {
     }
     htmlTable += "</tr>";
   });
+
   htmlTable += "</tbody>";
   return htmlTable;
 }

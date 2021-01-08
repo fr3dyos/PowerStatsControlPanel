@@ -40,7 +40,7 @@ function printSchedule(game) {
   });
 }
 
-function printSchedule(ocorrence) {
+function printLog(ocorrence) {
   const operation = datatemp.push({
     game: ocorrence.game,
     teamA: ocorrence.teamA,
@@ -92,7 +92,7 @@ async function accessSheet(idx) {
   return datatemp;
 }
 
-module.exports =  accessSheet;
+module.exports =  {accessSheet};
 
 
 
