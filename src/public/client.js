@@ -111,6 +111,23 @@ async function scheduleFromSheets(data) {
     scheduleFromSS = data;
   }
 }
+async function logFromSheets(data) {
+  console.log("log recieved");
+  console.log(data.length + " ocorrencess");
+  if (data.length < 1) {
+    console.log("no ocorrences data in the Spreadsheet");
+  } else {
+    await $("#loadedInformation").html(logS2H(data));
+    await $("#loadedInformation").addClass(
+      "animate__animated animate__backInLeft "
+    );
+    await setTimeout(
+      '$("#loadedInformation").removeClass("animate__animated animate__backInLeft ");',
+      2000
+    );
+    scheduleFromSS = data;
+  }
+}
 
 // ******************** requests functions
 
@@ -134,7 +151,7 @@ function getLogSheets() {
 
 function getList(team) {
   console.log("Getting full team: " + team);
-  socket.emit("getTeamPlayers", team);
+  socket.emit("getList", team);
 }
 
 function getPlayer(playerId) {
@@ -166,7 +183,7 @@ function updatePlayer() {
 
 function sendData() {
   console.log("Sending: All players' data");
-  socket.emit("sendFullPlayers", playersFromSS);
+  socket.emit("setList", playersFromSS);
 }
 
 function sendScheduleData() {

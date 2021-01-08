@@ -51,7 +51,7 @@ var server = app.listen(app.get("port"), () => {
 
 const gSheet = require("./g-spreadsheets");
 
-/****************************sendFullPlayers****************************/
+/**************************** MongoDB ****************************/
 const Atlas = require("./mongo-atlas");
 
 /****************************SOCKET CONFIG****************************/
@@ -64,63 +64,47 @@ io.sockets.on("connection", newConnection);
 function newConnection(socket) {
   console.log("New Connection: " + socket.id);
 
-  socket.on("getListSheets",  getFromSheets);
+  socket.on("getListSheets", getFromSheets);
   socket.on("getScheduleSheets", getFromSheets);
   socket.on("getLogSheets", getFromSheets);
-  socket.on("sendFullPlayers", setNewPlayers);
+  socket.on("setList", setList);
   socket.on("sendFullSchedule", setNewSchedule);
   socket.on("getPlayer", getPlayerFromDB);
   socket.on("updatePlayer", updatePlayerToDB);
   socket.on("deletePlayer", deletePlayerFromDB);
   socket.on("addNewPlayer", setPlayerToDB);
-  socket.on("getTeamPlayers", getTeam);
+  socket.on("getList", getList);
 
   async function getFromSheets(idx) {
     console.log("Getting data from Spreadsheet");
     var data = await gSheet.accessSheet(idx);
-    switch (idx){
+    switch (idx) {
       case 0:
         await socket.emit("listFromSheets", data);
-      break;
+        break;
       case 1:
         await socket.emit("scheduleFromSheets", data);
-      break;
+        break;
       case 2:
         await socket.emit("logFromSheets", data);
-      break;
-    }
-
-  }
-
-  async function getListFromSheets(data) {
-    console.log("Getting data from Spreadsheet");
-    var ssData = await gSheet.accessPlayersSheet();
-    await socket.emit("dataFromSS", ssData);
-  }
-/*
-  async function getScheduleFromSheets(data) {
-    console.log("Getting data from Spreadsheet");
-    var ssData = await gSheet.accessScheduleSheet();
-    await socket.emit("scheduleFromSS", ssData);
-  }
-
-  async function getLogFromSheets(data) {
-    console.log("Getting data from Spreadsheet");
-    var ssData = await gSheet.accessScheduleSheet();
-    await socket.emit("scheduleFromSS", ssData);
-  }*/
-
-  async function setNewPlayers(data) {
-    console.log("Sending data to database");
-    var flag = await Atlas.data2db(data);
-    if (flag) {
-      console.log("Data was send to database succesfully");
-      alert("Dados enviados com sucesso!");
-    } else {
-      console.log("Error while sending data to database");
-      alert("Erro no envio de dados!");
+        break;
     }
   }
+
+  async function setList(data) {
+    if (confirm("Certeza que quer enviar a info para DB?")) {
+      console.log("Sending data to database");
+      var flag = await Atlas.setList(data);
+      if (flag) {
+        console.log("Data was send to database succesfully");
+        alert("Dados enviados com sucesso!");
+      } else {
+        console.log("Error while sending data to database");
+        alert("Erro no envio de dados!");
+      }
+    }
+  }
+
   async function setNewSchedule(data) {
     console.log("Sending data to database");
     var flag = await Atlas.schedule2db(data);
@@ -139,10 +123,10 @@ function newConnection(socket) {
     await socket.emit("playerData", playerData);
   }
 
-  async function getTeam(teamName) {
+  async function getList(teamName) {
     console.log("Getting data from database");
-    const teamData = await Atlas.getTeamPlayers(teamName);
-    await socket.emit("teamData", teamData);
+    const teamData = await Atlas.getList(teamName);
+    await socket.emit("listFromDB", teamData);
   }
 
   async function updatePlayerToDB(player) {

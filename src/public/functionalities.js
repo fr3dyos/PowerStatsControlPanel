@@ -17,6 +17,11 @@ function listS2H(array) {
 }
 
 
+function logS2H(array){
+  
+}
+
+
 function listM2H(array) {
   var htmlTable =
     "<thead><tr><th>Nome</th><th>Apelido</th><th>Gênero</th><th>Time</th><th>Número</th><th>Nacionalidade</th><th>G</th> <th>A</th> <th>D</th> <th>Jogos</th> <th>Gm</th> <th>Am</th> <th>Dm</th>  <th>MVP</th> </tr></thead>";
