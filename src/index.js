@@ -64,8 +64,9 @@ io.sockets.on("connection", newConnection);
 function newConnection(socket) {
   console.log("New Connection: " + socket.id);
 
-  socket.on("spreadsheet", requestSSdata);
-  socket.on("spreadsheetSchedule", requestSchedule);
+  socket.on("getListSheets",  getFromSheets);
+  socket.on("getScheduleSheets", getFromSheets);
+  socket.on("getLogSheets", getFromSheets);
   socket.on("sendFullPlayers", setNewPlayers);
   socket.on("sendFullSchedule", setNewSchedule);
   socket.on("getPlayer", getPlayerFromDB);
@@ -74,17 +75,40 @@ function newConnection(socket) {
   socket.on("addNewPlayer", setPlayerToDB);
   socket.on("getTeamPlayers", getTeam);
 
-  async function requestSSdata(data) {
+  async function getFromSheets(idx) {
+    console.log("Getting data from Spreadsheet");
+    var data = await gSheet.accessSheet(idx);
+    switch (idx){
+      case 0:
+        await socket.emit("listFromSheets", data);
+      break;
+      case 1:
+        await socket.emit("scheduleFromSheets", data);
+      break;
+      case 2:
+        await socket.emit("logFromSheets", data);
+      break;
+    }
+
+  }
+
+  async function getListFromSheets(data) {
     console.log("Getting data from Spreadsheet");
     var ssData = await gSheet.accessPlayersSheet();
     await socket.emit("dataFromSS", ssData);
   }
-
-  async function requestSchedule(data) {
+/*
+  async function getScheduleFromSheets(data) {
     console.log("Getting data from Spreadsheet");
     var ssData = await gSheet.accessScheduleSheet();
     await socket.emit("scheduleFromSS", ssData);
   }
+
+  async function getLogFromSheets(data) {
+    console.log("Getting data from Spreadsheet");
+    var ssData = await gSheet.accessScheduleSheet();
+    await socket.emit("scheduleFromSS", ssData);
+  }*/
 
   async function setNewPlayers(data) {
     console.log("Sending data to database");

@@ -8,8 +8,9 @@ $(document).ready(function () {
   socket = io.connect("http://localhost:3000");
   console.log("Socket connected");
   // messages from socket
-  socket.on("dataFromSS", getDataFromSS);
-  socket.on("scheduleFromSS", getScheduleFromSS);
+  socket.on("listFromSheets", listFromSheets);
+  socket.on("scheduleFromSheets", scheduleFromSheets);
+  socket.on("LogFromSheets", logFromSheets);
   socket.on("teamData", getTeam);
 
   socket.on("playerData", playerInfoRecieved);
@@ -63,7 +64,7 @@ async function getTeam(data) {
   if (data.length < 1) {
     console.log("no players from selected Team");
   } else {
-    await $("#loadedInformation").html(tableFromDB(data));
+    await $("#loadedInformation").html(listM2H(data));
     await $("#loadedInformation").addClass(
       "animate__animated animate__backInLeft "
     );
@@ -74,13 +75,14 @@ async function getTeam(data) {
   }
 }
 
-async function getDataFromSS(data) {
+/***************Sheets functions************/
+async function listFromSheets(data) {
   console.log("Data recieved");
   console.log(data.length + " players");
   if (data.length < 1) {
     console.log("no player data in the Spreadsheet");
   } else {
-    await $("#loadedInformation").html(tableFromSS(data));
+    await $("#loadedInformation").html(listS2H(data));
     await $("#loadedInformation").addClass(
       "animate__animated animate__backInLeft "
     );
@@ -92,13 +94,13 @@ async function getDataFromSS(data) {
   }
 }
 
-async function getScheduleFromSS(data) {
+async function scheduleFromSheets(data) {
   console.log("Schedule recieved");
   console.log(data.length + " games");
   if (data.length < 1) {
     console.log("no games data in the Spreadsheet");
   } else {
-    await $("#loadedInformation").html(scheduleFromSS(data));
+    await $("#loadedInformation").html(scheduleS2H(data));
     await $("#loadedInformation").addClass(
       "animate__animated animate__backInLeft "
     );
@@ -112,16 +114,21 @@ async function getScheduleFromSS(data) {
 
 // ******************** requests functions
 
-function requestData() {
+function getListSheets() {
   console.log("Sending request to server");
-  socket.emit("spreadsheet", null);
-
+  socket.emit("getListSheets", 0);
   $("#loadedInformation").empty();
 }
-function requestSchedule() {
-  console.log("Sending request to server");
-  socket.emit("spreadsheetSchedule", null);
 
+function getScheduleSheets() {
+  console.log("Sending request to server");
+  socket.emit("getScheduleSheets", 1);
+  $("#loadedInformation").empty();
+}
+
+function getLogSheets() {
+  console.log("Sending request to server");
+  socket.emit("getLogSheets", 2);
   $("#loadedInformation").empty();
 }
 
