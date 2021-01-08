@@ -1,4 +1,3 @@
-//google spreadsheet config
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 const creds = require("./client_secret.json");
 const spreadsheetRef = "1u5wL7opIGzHnEaMTXGRuW2AfXdeIrRYXXgLZ2M9Urm0";
@@ -28,6 +27,7 @@ function printPlayers(player) {
     MVP: Double(0.0),
   });
 }
+
 function printSchedule(game) {
   const operation = datatemp.push({
     game: game.game,
@@ -40,61 +40,21 @@ function printSchedule(game) {
   });
 }
 
-async function accessPlayersSheet() {
-  console.log("Attempt to access Spreadsheet");
-  await doc.useServiceAccountAuth({
-    client_email: creds.client_email,
-    private_key: creds.private_key,
+function printSchedule(ocorrence) {
+  const operation = datatemp.push({
+    game: ocorrence.game,
+    teamA: ocorrence.teamA,
+    scoreA: 0,
+    scoreB: 0,
+    teamB: ocorrence.teamB,
+    ocorrence: ocorrence.ocorrence,
+    playerAId: ocorrence.playerAId,
+    playerBId: ocorrence.playerBId,
+    date: new Date(ocorrence.date),
+    elapsed: ocorrence.elapsed,
   });
-
-  await doc.loadInfo(); // loads document properties and worksheets
-  const sheet = doc.sheetsByIndex[0]; // or use doc.sheetsById[id]
-  const rows = await sheet.getRows();
-  dataPlayers = [];
-  await rows.forEach((row) => {
-    printPlayers(row);
-  });
-  console.log("done!");
-  return dataPlayers;
 }
 
-async function accessScheduleSheet() {
-  console.log("Attempt to access schedule sheet");
-  await doc.useServiceAccountAuth({
-    client_email: creds.client_email,
-    private_key: creds.private_key,
-  });
-
-  await doc.loadInfo(); // loads document properties and worksheets
-  const sheet = doc.sheetsByIndex[1]; // or use doc.sheetsById[id]
-  const rows = await sheet.getRows();
-
-  dataSchedule = [];
-  await rows.forEach((row) => {
-    printSchedule(row);
-  });
-  console.log("done!");
-  return dataSchedule;
-}
-
-async function accessLogSheet() {
-  console.log("Attempt to access log sheet");
-  await doc.useServiceAccountAuth({
-    client_email: creds.client_email,
-    private_key: creds.private_key,
-  });
-
-  await doc.loadInfo(); // loads document properties and worksheets
-  const sheet = doc.sheetsByIndex[3]; // or use doc.sheetsById[id]
-  const rows = await sheet.getRows();
-
-  dataLog = [];
-  await rows.forEach((row) => {
-    printSchedule(row);
-  });
-  console.log("done!");
-  return dataLog;
-}
 
 async function accessSheet(idx) {
   console.log("***********************");
@@ -132,9 +92,36 @@ async function accessSheet(idx) {
   return datatemp;
 }
 
-module.exports = {
-  accessSheet,
-  accessPlayersSheet,
-  accessScheduleSheet,
-  accessLogSheet,
-};
+module.exports =  accessSheet;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*async function accessPlayersSheet() {
+  console.log("Attempt to access Spreadsheet");
+  await doc.useServiceAccountAuth({
+    client_email: creds.client_email,
+    private_key: creds.private_key,
+  });
+
+  await doc.loadInfo(); // loads document properties and worksheets
+  const sheet = doc.sheetsByIndex[0]; // or use doc.sheetsById[id]
+  const rows = await sheet.getRows();
+  dataPlayers = [];
+  await rows.forEach((row) => {
+    printPlayers(row);
+  });
+  console.log("done!");
+  return dataPlayers;
+}*/

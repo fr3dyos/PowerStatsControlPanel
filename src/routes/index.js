@@ -20,9 +20,9 @@ router.get("/about", (req, res) => {
   res.render("about", { title: "About Page", tournament: tournamentName });
 });
 
-router.get("/spreadsheet", (req, res) => {
-  res.render("fromspreadsheet", {
-    title: "Load from Sheets",
+router.get("/list", (req, res) => {
+  res.render("list", {
+    title: "Player lists",
     tournament: tournamentName,
     table: "",
   });
