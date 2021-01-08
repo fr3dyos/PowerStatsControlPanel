@@ -28,6 +28,14 @@ router.get("/spreadsheet", (req, res) => {
   });
 });
 
+router.get("/schedule", (req, res) => {
+  res.render("schedule", {
+    title: "Load Schedule from Sheets",
+    tournament: tournamentName,
+    table: "",
+  });
+});
+
 router.get("/team-*", (req, res) => {
   res.render("teams", {
     title: "Team Information",

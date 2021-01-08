@@ -16,6 +16,7 @@ function tableFromSS(array) {
   return htmlTable;
 }
 
+
 function tableFromDB(array) {
   var htmlTable =
     "<thead><tr><th>Nome</th><th>Apelido</th><th>Gênero</th><th>Time</th><th>Número</th><th>Nacionalidade</th><th>G</th> <th>A</th> <th>D</th> <th>Jogos</th> <th>Gm</th> <th>Am</th> <th>Dm</th>  <th>MVP</th> </tr></thead>";
@@ -51,6 +52,26 @@ function tableFromDB(array) {
     htmlTable += "</td><td>";
     htmlTable += element.MVP;
     htmlTable += "</td></tr>";
+  });
+  htmlTable += "</tbody>";
+  return htmlTable;
+}
+
+
+/*******************************/
+
+function scheduleFromSS(array) {
+  var htmlTable =
+    "<thead><tr><th>Jogo</th><th>Campo </th><th>Time A</th><th>Gols A</th><th>Gols B</th><th>Time B</th><th>Data</th> </tr></thead>";
+  htmlTable += "<tbody>";
+  array.forEach(function (element) {
+    htmlTable += "       <tr>";
+    for (var prop in element) {
+      htmlTable += "<td>";
+      htmlTable += element[prop];
+      htmlTable += "</td>";
+    }
+    htmlTable += "</tr>";
   });
   htmlTable += "</tbody>";
   return htmlTable;

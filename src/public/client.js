@@ -1,5 +1,7 @@
 var socket;
 var dataPlayers;
+var playersFromSS;
+var scheduleFromSS;
 
 // Start only when document ready
 $(document).ready(function () {
@@ -7,17 +9,18 @@ $(document).ready(function () {
   console.log("Socket connected");
   // messages from socket
   socket.on("dataFromSS", getDataFromSS);
+  socket.on("scheduleFromSS", getScheduleFromSS);
   socket.on("teamData", getTeam);
 
   socket.on("playerData", playerInfoRecieved);
   socket.on("addedPlayer", function (name) {
-    alert(name + " info added");
+    alert(name + " info adicionada");
   });
   socket.on("updatedPlayer", function (name) {
-    alert(name + " info updated");
+    alert(name + " info atualizada");
   });
   socket.on("deletedPlayer", function (name) {
-    alert(name + " info deleted");
+    alert(name + " info deletada");
     window.location.replace("/");
   });
 
@@ -34,7 +37,8 @@ $(document).ready(function () {
   }
 });
 
-/************recieving function *************/
+/************     CLIENT FUNCTIONS     *************/
+/************ recieving *************/
 
 function playerInfoRecieved(player) {
   console.log("player data recieved");
@@ -88,20 +92,37 @@ async function getDataFromSS(data) {
   }
 }
 
+async function getScheduleFromSS(data) {
+  console.log("Schedule recieved");
+  console.log(data.length + " games");
+  if (data.length < 1) {
+    console.log("no games data in the Spreadsheet");
+  } else {
+    await $("#loadedInformation").html(scheduleFromSS(data));
+    await $("#loadedInformation").addClass(
+      "animate__animated animate__backInLeft "
+    );
+    await setTimeout(
+      '$("#loadedInformation").removeClass("animate__animated animate__backInLeft ");',
+      2000
+    );
+    scheduleFromSS = data;
+  }
+}
+
 // ******************** requests functions
 
 function requestData() {
-  var data = "spreadsheet";
   console.log("Sending request to server");
-  socket.emit("spreadsheet", data);
+  socket.emit("spreadsheet", null);
 
   $("#loadedInformation").empty();
 }
+function requestSchedule() {
+  console.log("Sending request to server");
+  socket.emit("spreadsheetSchedule", null);
 
-var playersFromSS;
-function sendData() {
-  console.log("Sending: All players' data");
-  socket.emit("mongoDB", playersFromSS);
+  $("#loadedInformation").empty();
 }
 
 function getList(team) {
@@ -114,9 +135,16 @@ function getPlayer(playerId) {
   socket.emit("getPlayer", playerId);
 }
 
+
+function getSchedule(team) {
+  console.log("Getting full team: " + team);
+  socket.emit("getTeamPlayers", team);
+}
+
 // ******************** send functions
 //
 function updatePlayer() {
+  
   let player = {};
   player.name = $("#fname").val();
   player.team = $("#team").val();
@@ -127,6 +155,16 @@ function updatePlayer() {
   player.temp_id = $("#pid").html().substring(4);
   console.log("updating player Info: " + player.name);
   socket.emit("updatePlayer", player);
+}
+
+function sendData() {
+  console.log("Sending: All players' data");
+  socket.emit("sendFullPlayers", playersFromSS);
+}
+
+function sendScheduleData() {
+  console.log("Sending: Schedule data");
+  socket.emit("sendFullSchedule", scheduleFromSS);
 }
 
 function deletePlayer() {

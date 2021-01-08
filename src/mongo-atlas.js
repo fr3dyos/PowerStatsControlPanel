@@ -10,7 +10,9 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 });
 
 const databaseName = "CBBU2021"; //name of the tournamen
-const collectionName = "Players"; //name of the table
+const collectionPlayers = "Players"; //name of the table
+const collectionSchedule = "Schedule"; //name of the table
+const collectionLog = "Log"; //name of the table
 
 async function data2db(dataPlayers, content, auth) {
   console.log("Uploading to DB");
@@ -19,8 +21,25 @@ async function data2db(dataPlayers, content, auth) {
       await client.connect();
     }
     const database = client.db(databaseName);
-    const collection = database.collection(collectionName);
+    const collection = database.collection(collectionPlayers);
     const result = await collection.insertMany(dataPlayers);
+    return result;
+    //client.close();
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
+async function schedule2db(dataSchedule, content, auth) {
+  console.log("Uploading Schedule to DB");
+  try {
+    if (!client.isConnected()) {
+      await client.connect();
+    }
+    const database = client.db(databaseName);
+    const collection = database.collection(collectionSchedule);
+    const result = await collection.insertMany(dataSchedule);
     return result;
     //client.close();
   } catch (err) {
@@ -38,7 +57,7 @@ async function updatePlayer(player, content, auth) {
       await client.connect();
     }
     const database = client.db(databaseName);
-    const collection = database.collection(collectionName);
+    const collection = database.collection(collectionPlayers);
     let result = await collection.updateOne(
       { _id: ObjectId(player._id) },
       {
@@ -72,7 +91,7 @@ async function deletePlayer(player, content, auth) {
       await client.connect();
     }
     const database = client.db(databaseName);
-    const collection = database.collection(collectionName);
+    const collection = database.collection(collectionPlayers);
     let result = await collection.deleteOne({ _id: ObjectId(player._id) });
     console.log("player deleted");
     //client.close();
@@ -98,7 +117,7 @@ async function setPlayer(player, content, auth) {
       await client.connect();
     }
     const database = client.db(databaseName);
-    const collection = database.collection(collectionName);
+    const collection = database.collection(collectionPlayers);
     let result = await collection.insertOne(player);
     console.log("Player Added succesfully");
     //client.close();
@@ -117,7 +136,7 @@ async function getPlayer(playerid, content, auth) {
       await client.connect();
     }
     const database = client.db(databaseName);
-    const collection = database.collection(collectionName);
+    const collection = database.collection(collectionPlayers);
     result = await collection.findOne({ _id: ObjectId(playerid) });
     await console.log(result);
     //client.close();
@@ -135,7 +154,7 @@ async function getTeamPlayers(teamName, content, auth) {
       await client.connect();
     }
     const database = client.db(databaseName);
-    const collection = database.collection(collectionName);
+    const collection = database.collection(collectionPlayers);
     if (teamName) {
       console.log("Getting " + teamName + " Players");
       let playerCursor = await collection.find({ team: teamName });
@@ -161,4 +180,5 @@ module.exports = {
   setPlayer,
   getTeamPlayers,
   deletePlayer,
+  schedule2db
 };
