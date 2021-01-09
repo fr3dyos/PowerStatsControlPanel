@@ -1,25 +1,43 @@
 var socket;
-var dataPlayers;
-var playersFromSS;
-var scheduleFromSS;
-var logFromSS;
+var dataTemp;
 
 // Start only when document ready
 $(document).ready(function () {
+  // Socket Connection
   socket = io.connect("http://localhost:3000");
+
   console.log("Socket connected");
-  // messages from socket
-  socket.on("listFromSheets", listFromSheets);
-  socket.on("scheduleFromSheets", scheduleFromSheets);
-  socket.on("LogFromSheets", logFromSheets);
-  socket.on("teamData", getTeam);
+  // Messages on Socket
+
+  // Sheets
+  socket.on("listFromSheets", function (data) {
+    getData(data, 0);
+  });
+  socket.on("scheduleFromSheets", function (data) {
+    getData(data, 1);
+  });
+  socket.on("logFromSheets", function (data) {
+    getData(data, 2);
+  });
+
+  // Success feedback
   socket.on("success", function (action) {
-    console.log(action);
     alert(action);
   });
 
+  socket.on("listFromDB", function (data) {
+    getData(data, 0);
+  });
+  socket.on("scheduleFromDB", function (data) {
+    getData(data, 1);
+  });
+  socket.on("logFromDB", function (data) {
+    getData(data, 2);
+    console.log(data);
+  });
+
   socket.on("playerData", playerInfoRecieved);
-  
+
   var pathCurrent = window.location.pathname;
   if (pathCurrent.substring(0, 8) === "/player-") {
     var playerId = pathCurrent.substring(8);
@@ -33,7 +51,6 @@ $(document).ready(function () {
   }
 });
 
-/*******************************/
 
 /************     CLIENT FUNCTIONS     *************/
 /************ recieving *************/
@@ -56,12 +73,22 @@ function playerInfoRecieved(player) {
   }
 }
 
-async function getTeam(data) {
-  console.log("Getting " + data + " players");
+async function getData(data, idx) {
+  console.log("Getting " + data.length + " lines");
   if (data.length < 1) {
-    console.log("no players from selected Team");
+    console.log("no Data found");
   } else {
-    await $("#loadedInformation").html(listM2H(data));
+    switch (idx) {
+      case 0:
+        await $("#loadedInformation").html(list2H(data));
+        break;
+      case 1:
+        await $("#loadedInformation").html(schedule2H(data));
+        break;
+      case 2:
+        await $("#loadedInformation").html(log2H(data));
+        break;
+    }
     await $("#loadedInformation").addClass(
       "animate__animated animate__backInLeft "
     );
@@ -69,17 +96,18 @@ async function getTeam(data) {
       '$("#loadedInformation").removeClass("animate__animated animate__backInLeft ");',
       2000
     );
+    dataTemp = data;
   }
 }
 
 /***************Sheets functions************/
-async function listFromSheets(data) {
+/*async function listFromSheets(data) {
   console.log("Data recieved");
   console.log(data.length + " players");
   if (data.length < 1) {
     console.log("no player data in the Spreadsheet");
   } else {
-    await $("#loadedInformation").html(listS2H(data));
+    await $("#loadedInformation").html(list2H(data));
     await $("#loadedInformation").addClass(
       "animate__animated animate__backInLeft "
     );
@@ -87,7 +115,7 @@ async function listFromSheets(data) {
       '$("#loadedInformation").removeClass("animate__animated animate__backInLeft ");',
       2000
     );
-    playersFromSS = data;
+    dataTemp = data;
   }
 }
 
@@ -97,7 +125,7 @@ async function scheduleFromSheets(data) {
   if (data.length < 1) {
     console.log("no games data in the Spreadsheet");
   } else {
-    await $("#loadedInformation").html(scheduleS2H(data));
+    await $("#loadedInformation").html(schedule2H(data));
     await $("#loadedInformation").addClass(
       "animate__animated animate__backInLeft "
     );
@@ -105,16 +133,16 @@ async function scheduleFromSheets(data) {
       '$("#loadedInformation").removeClass("animate__animated animate__backInLeft ");',
       2000
     );
-    scheduleFromSS = data;
+    dataTemp = data;
   }
 }
 async function logFromSheets(data) {
   console.log("log recieved");
-  console.log(data.length + " ocorrencess");
+  console.log(data.length + " ocorrences");
   if (data.length < 1) {
     console.log("no ocorrences data in the Spreadsheet");
   } else {
-    await $("#loadedInformation").html(logS2H(data));
+    await $("#loadedInformation").html(log2H(data));
     await $("#loadedInformation").addClass(
       "animate__animated animate__backInLeft "
     );
@@ -122,9 +150,9 @@ async function logFromSheets(data) {
       '$("#loadedInformation").removeClass("animate__animated animate__backInLeft ");',
       2000
     );
-    scheduleFromSS = data;
+    dataTemp = data;
   }
-}
+}*/
 
 // ******************** requests functions
 
@@ -156,10 +184,16 @@ function getPlayer(playerId) {
   socket.emit("getPlayer", playerId);
 }
 
-function getScheduleBtn(team) {
-  console.log("Getting full team: " + team);
-  socket.emit("getTeamPlayers", team);
+function getScheduleBtn() {
+  console.log("Getting full Schedule");
+  socket.emit("getSchedule", null);
 }
+
+function getLogBtn() {
+  console.log("Getting full Log");
+  socket.emit("getLog", null);
+}
+
 
 // ******************** set functions
 //
@@ -181,20 +215,20 @@ function updatePlayer() {
 function setListBtn() {
   if (confirm("Certeza?")) {
     console.log("Sending: All players' data");
-    socket.emit("setList", playersFromSS);
+    socket.emit("setList", dataTemp);
   }
 }
 
 function setScheduleBtn() {
   if (confirm("Certeza?")) {
     console.log("Sending: Schedule data");
-    socket.emit("setSchedule", scheduleFromSS);
+    socket.emit("setSchedule", dataTemp);
   }
 }
 function setLogBtn() {
   if (confirm("Certeza?")) {
     console.log("Sending: Log data");
-    socket.emit("setLog", logFromSS);
+    socket.emit("setLog", dataTemp);
   }
 }
 

@@ -42,19 +42,20 @@ function printSchedule(game) {
 
 function printLog(ocorrence) {
   const operation = datatemp.push({
-    game: ocorrence.game,
-    teamA: ocorrence.teamA,
-    scoreA: 0,
-    scoreB: 0,
-    teamB: ocorrence.teamB,
     ocorrence: ocorrence.ocorrence,
-    playerAId: ocorrence.playerAId,
-    playerBId: ocorrence.playerBId,
     date: new Date(ocorrence.date),
+    game: ocorrence.game,
     elapsed: ocorrence.elapsed,
+    teamA: ocorrence.teamA,
+    scoreA: ocorrence.scoreA,
+    scoreB: ocorrence.scoreB,
+    teamB: ocorrence.teamB,
+    teamO: ocorrence.teamO,
+    player1: { _id: ocorrence.player1, name: ocorrence.player1Name },
+    player2: { _id: ocorrence.player2, name: ocorrence.player2Name },
   });
+  
 }
-
 
 async function accessSheet(idx) {
   console.log("***********************");
@@ -92,21 +93,7 @@ async function accessSheet(idx) {
   return datatemp;
 }
 
-module.exports =  {accessSheet};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+module.exports = { accessSheet };
 
 /*async function accessPlayersSheet() {
   console.log("Attempt to access Spreadsheet");

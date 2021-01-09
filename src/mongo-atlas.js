@@ -48,6 +48,23 @@ async function setSchedule2db(dataSchedule, content, auth) {
   }
 }
 
+async function setLog2db(dataLog, content, auth) {
+  console.log("Uploading Log to DB");
+  try {
+    if (!client.isConnected()) {
+      await client.connect();
+    }
+    const database = client.db(databaseName);
+    const collection = database.collection(collectionLog);
+    const result = await collection.insertMany(dataLog);
+    return result;
+    //client.close();
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
 async function updatePlayer(player, content, auth) {
   console.log(player);
   player._id = ObjectId(player.temp_id);
@@ -157,15 +174,53 @@ async function getList(teamName, content, auth) {
     const collection = database.collection(collectionPlayers);
     if (teamName) {
       console.log("Getting " + teamName + " Players");
-      let playerCursor = await collection.find({ team: teamName });
-      let playerList = await playerCursor.toArray();
-      return playerList;
+      let cursor = await collection.find({ team: teamName });
+      let list = await cursor.toArray();
+      return list;
     } else {
       console.log("Getting All Players");
-      let playerCursor = await collection.find({});
-      let playerList = await playerCursor.toArray();
-      return playerList;
+      let cursor = await collection.find({});
+      let list = await cursor.toArray();
+      return list;
     }
+    //client.close();
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
+async function getSchedule(content, auth) {
+  try {
+    console.log("Getting Schedule info");
+    if (!client.isConnected()) {
+      await client.connect();
+    }
+    const database = client.db(databaseName);
+    const collection = database.collection(collectionSchedule);
+    let cursor = await collection.find({});
+    let list = await cursor.toArray();
+    return list;
+
+    //client.close();
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
+async function getLog(content, auth) {
+  try {
+    console.log("Getting Log info");
+    if (!client.isConnected()) {
+      await client.connect();
+    }
+    const database = client.db(databaseName);
+    const collection = database.collection(collectionLog);
+    let cursor = await collection.find({});
+    let list = await cursor.toArray();
+    return list;
+
     //client.close();
   } catch (err) {
     console.log(err);
@@ -176,9 +231,12 @@ async function getList(teamName, content, auth) {
 module.exports = {
   setList2db,
   setSchedule2db,
+  setLog2db,
   updatePlayer,
   getPlayer,
   setPlayer,
   getList,
+  getSchedule,
+  getLog,
   deletePlayer,
 };
