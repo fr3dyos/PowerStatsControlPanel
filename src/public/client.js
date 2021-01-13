@@ -37,6 +37,7 @@ $(document).ready(function () {
   });
 
   socket.on("playerData", playerInfoRecieved);
+  socket.on("gameData", gameInfoRecieved);
 
   var pathCurrent = window.location.pathname;
   if (pathCurrent.substring(0, 8) === "/player-") {
@@ -50,7 +51,6 @@ $(document).ready(function () {
     }
   }
 });
-
 
 /************     CLIENT FUNCTIONS     *************/
 /************ recieving *************/
@@ -73,6 +73,29 @@ function playerInfoRecieved(player) {
   }
 }
 
+function gameInfoRecieved(game) {
+  console.log("game data recieved");
+  console.log(game);
+  try {
+    if (game) {
+      $("#pid").html("Game " + game.game);
+      $("#game").val(game.game);
+      $("#field").val(game.field);
+      $("#teamA").val(game.teamA);
+      $("#teamB").val(game.teamB);
+      $("#scoreA").val(game.scoreA);
+      $("#scoreB").val(game.scoreB);
+      $("#date").val(game.date);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+0
+
+
+// ******************** requests functions
 async function getData(data, idx) {
   console.log("Getting " + data.length + " lines");
   if (data.length < 1) {
@@ -100,61 +123,7 @@ async function getData(data, idx) {
   }
 }
 
-/***************Sheets functions************/
-/*async function listFromSheets(data) {
-  console.log("Data recieved");
-  console.log(data.length + " players");
-  if (data.length < 1) {
-    console.log("no player data in the Spreadsheet");
-  } else {
-    await $("#loadedInformation").html(list2H(data));
-    await $("#loadedInformation").addClass(
-      "animate__animated animate__backInLeft "
-    );
-    await setTimeout(
-      '$("#loadedInformation").removeClass("animate__animated animate__backInLeft ");',
-      2000
-    );
-    dataTemp = data;
-  }
-}
 
-async function scheduleFromSheets(data) {
-  console.log("Schedule recieved");
-  console.log(data.length + " games");
-  if (data.length < 1) {
-    console.log("no games data in the Spreadsheet");
-  } else {
-    await $("#loadedInformation").html(schedule2H(data));
-    await $("#loadedInformation").addClass(
-      "animate__animated animate__backInLeft "
-    );
-    await setTimeout(
-      '$("#loadedInformation").removeClass("animate__animated animate__backInLeft ");',
-      2000
-    );
-    dataTemp = data;
-  }
-}
-async function logFromSheets(data) {
-  console.log("log recieved");
-  console.log(data.length + " ocorrences");
-  if (data.length < 1) {
-    console.log("no ocorrences data in the Spreadsheet");
-  } else {
-    await $("#loadedInformation").html(log2H(data));
-    await $("#loadedInformation").addClass(
-      "animate__animated animate__backInLeft "
-    );
-    await setTimeout(
-      '$("#loadedInformation").removeClass("animate__animated animate__backInLeft ");',
-      2000
-    );
-    dataTemp = data;
-  }
-}*/
-
-// ******************** requests functions
 
 function getListSheets() {
   console.log("Sending request to server");
@@ -179,10 +148,6 @@ function getListBtn(team) {
   socket.emit("getList", team);
 }
 
-function getPlayer(playerId) {
-  console.log("Getting player from Id: " + playerId);
-  socket.emit("getPlayer", playerId);
-}
 
 function getScheduleBtn() {
   console.log("Getting full Schedule");
@@ -194,23 +159,8 @@ function getLogBtn() {
   socket.emit("getLog", null);
 }
 
-
 // ******************** set functions
 //
-function updatePlayer() {
-  if (confirm("Certeza?")) {
-    let player = {};
-    player.name = $("#fname").val();
-    player.team = $("#team").val();
-    player.nickname = $("#nname").val();
-    player.number = $("#pnumber").val();
-    player.country = $("#country").val();
-    player.gender = $("#gender").val();
-    player.temp_id = $("#pid").html().substring(4);
-    console.log("updating player Info: " + player.name);
-    socket.emit("updatePlayer", player);
-  }
-}
 
 function setListBtn() {
   if (confirm("Certeza?")) {
@@ -231,8 +181,43 @@ function setLogBtn() {
     socket.emit("setLog", dataTemp);
   }
 }
+//Player functions
 
-function deletePlayer() {
+function getPlayerBtn(playerId) {
+  console.log("Getting player by Id: " + playerId);
+  socket.emit("getPlayer", playerId);
+}
+
+function setPlayerBtn() {
+  if (confirm("Are you sure?")) {
+    let player = {};
+    player.name = $("#fname").val();
+    player.team = $("#team").val();
+    player.nickname = $("#nname").val();
+    player.number = $("#pnumber").val();
+    player.country = $("#country").val();
+    player.gender = $("#gender").val();
+    console.log("Setting new player: " + player.name);
+    socket.emit("setPlayer", player);
+  }
+}
+
+function updatePlayerBtn() {
+  if (confirm("Certeza?")) {
+    let player = {};
+    player.name = $("#fname").val();
+    player.team = $("#team").val();
+    player.nickname = $("#nname").val();
+    player.number = $("#pnumber").val();
+    player.country = $("#country").val();
+    player.gender = $("#gender").val();
+    player.temp_id = $("#pid").html().substring(4);
+    console.log("updating player Info: " + player.name);
+    socket.emit("updatePlayer", player);
+  }
+}
+
+function deletePlayerBtn() {
   if (confirm("certeza?")) {
     let player = {};
     player.name = $("#fname").val();
@@ -244,16 +229,52 @@ function deletePlayer() {
   }
 }
 
-function addNewPlayer() {
+
+
+// Game Functions
+function getGameBtn(gameId) {
+  console.log("Getting game by Id: " + gameId);
+  socket.emit("getGame", gameId);
+}
+
+function setGameBtn() {
   if (confirm("Are you sure?")) {
-    let player = {};
-    player.name = $("#fname").val();
-    player.team = $("#team").val();
-    player.nickname = $("#nname").val();
-    player.number = $("#pnumber").val();
-    player.country = $("#country").val();
-    player.gender = $("#gender").val();
-    console.log("Adding new player: " + player.name);
-    socket.emit("addNewPlayer", player);
+    let game = {};
+    game.game = $("#gameN").val();
+    game.field = $("#field").val();
+    game.teamA = $("#teamA").val();
+    game.teamB = $("#teamB").val();
+    game.scoreA = $("#scoreA").val();
+    game.scoreB = $("#scoreB").val();
+    game.date = $("#date").val();
+    console.log("Setting new game: " + game.game);
+    socket.emit("setGame", game);
+  }
+}
+
+function updateGameBtn() {
+  if (confirm("Certeza?")) {
+    let game = {};
+    game.name = $("#fname").val();
+    game.team = $("#team").val();
+    game.nickname = $("#nname").val();
+    game.number = $("#pnumber").val();
+    game.country = $("#country").val();
+    game.gender = $("#gender").val();
+    game.temp_id = $("#pid").html().substring(4);
+    console.log("updating game Info: " + game.name);
+    socket.emit("updateGame", game);
+  }
+}
+
+function deleteGameBtn() {
+  if (confirm("certeza?")) {
+    let game = {};
+    game.name = $("#fname").val();
+    game.temp_id = $("#pid").html().substring(4);
+    console.log("deleting game Info: " + game.name);
+    socket.emit("deleteGame", game);
+  } else {
+    alert(game.name + " not deleted");
   }
 }

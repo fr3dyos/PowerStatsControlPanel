@@ -78,7 +78,7 @@ function schedule2H(array) {
 
 function log2H(array) {
   var htmlTable =
-    "<thead><tr><th>Ocorrência</th><th>Jogo</th><th>Data</th><th>Tempo</th><th>Time A</th><th>Placar A</th><th>Placar B</th><th>Time B</th><th>Time</th><th>Jogador 1</th><th>Jogador 2</th> </tr></thead>";
+    "<thead><tr><th>Ocorrência</th><th>Jogo</th><th>Data</th><th>Tempo</th><th>Time A</th><th>Placar A</th><th>Placar B</th><th>Time B</th><th>Time</th><th>J1 (As)</th><th>J2(Ar)</th> </tr></thead>";
   htmlTable += "<tbody>";
   array.forEach(function (element) {
     if (element.id) {
@@ -114,8 +114,7 @@ function log2H(array) {
     htmlTable += "</td><td>";
     htmlTable += '<a href="/team-' + element.player2._id + '">';
     htmlTable += element.player2.name + "</a>";
-    htmlTable += "</td><td>";
-    htmlTable += "</tr>";
+    htmlTable += "</td></tr>";
   });
 
   htmlTable += "</tbody>";

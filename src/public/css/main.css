@@ -111,3 +111,16 @@ h3 {
   font-weight: bold;
   border: rgba(0, 0, 0, 0.6);
 }
+
+table,
+thead,
+tr,
+tbody,
+th,
+td {
+  text-align: center;
+}
+
+.table td {
+  text-align: center;
+}
