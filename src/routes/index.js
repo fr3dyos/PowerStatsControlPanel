@@ -57,18 +57,39 @@ router.get("/player-*", (req, res) => {
   res.render("player", {
     title: "Player Info",
     tournament: tournamentName,
-    btnTag: "UPDATE",
-    btnFunction: "updatePlayer();",
+    btnTag: "ATUALIZAR",
+    btnFunction: "updatePlayerBtn();",
   });
 });
+
+router.get("/game-*", (req, res) => {
+
+  res.render("game", {
+    title: "Game Info",
+    tournament: tournamentName,
+    btnTag: "ATUALIZAR",
+    btnFunction: "updateGameBtn();",
+  });
+});
+
+router.get("/newgame", (req, res) => {
+
+  res.render("game", {
+    title: "Game Info",
+    tournament: tournamentName,
+    btnTag: "ADICIONAR",
+    btnFunction: "setGameBtn();",
+  });
+});
+
 
 router.get("/newplayer", (req, res) => {
 
   res.render("player", {
     title: "Player Info",
     tournament: tournamentName,
-    btnTag: "ADD NEW PLAYER",
-    btnFunction: "addNewPlayer();", 
+    btnTag: "ADICIONAR",
+    btnFunction: "setPlayerBtn();", 
   });
 });
 

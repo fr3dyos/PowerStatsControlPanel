@@ -38,18 +38,6 @@ $(document).ready(function () {
 
   socket.on("playerData", playerInfoRecieved);
   socket.on("gameData", gameInfoRecieved);
-
-  var pathCurrent = window.location.pathname;
-  if (pathCurrent.substring(0, 8) === "/player-") {
-    var playerId = pathCurrent.substring(8);
-    console.log("Player id: " + playerId);
-    try {
-      getPlayer(playerId);
-    } catch (err) {
-      console.log("no player found");
-      console.log(err);
-    }
-  }
 });
 
 /************     CLIENT FUNCTIONS     *************/
@@ -78,22 +66,30 @@ function gameInfoRecieved(game) {
   console.log(game);
   try {
     if (game) {
-      $("#pid").html("Game " + game.game);
+      $("#titleGame").html("Game " + game.game);
       $("#game").val(game.game);
       $("#field").val(game.field);
       $("#teamA").val(game.teamA);
       $("#teamB").val(game.teamB);
       $("#scoreA").val(game.scoreA);
       $("#scoreB").val(game.scoreB);
-      $("#date").val(game.date);
+      $("#round").val(game.round);
+      var date = new Date(game.date);
+      var year = date.getFullYear() + "";
+      var month = ("0" + date.getMonth()).substr(-2);
+      var day = ("0" + date.getDate()).substr(-2);
+      var hours = ("0" + date.getHours()).substr(-2);
+      var minutes = ("0" + date.getMinutes()).substr(-2);
+      $("#date").val(year + "-" + month + "-" + day);
+      $("#hour").val(hours + ":" + minutes);
+      $("#pid").html(game._id);
     }
   } catch (err) {
     console.log(err);
   }
 }
 
-0
-
+0;
 
 // ******************** requests functions
 async function getData(data, idx) {
@@ -123,8 +119,6 @@ async function getData(data, idx) {
   }
 }
 
-
-
 function getListSheets() {
   console.log("Sending request to server");
   socket.emit("getListSheets", 0);
@@ -147,7 +141,6 @@ function getListBtn(team) {
   console.log("Getting full team: " + team);
   socket.emit("getList", team);
 }
-
 
 function getScheduleBtn() {
   console.log("Getting full Schedule");
@@ -229,8 +222,6 @@ function deletePlayerBtn() {
   }
 }
 
-
-
 // Game Functions
 function getGameBtn(gameId) {
   console.log("Getting game by Id: " + gameId);
@@ -240,13 +231,18 @@ function getGameBtn(gameId) {
 function setGameBtn() {
   if (confirm("Are you sure?")) {
     let game = {};
-    game.game = $("#gameN").val();
+    game.game = $("#game").val();
     game.field = $("#field").val();
     game.teamA = $("#teamA").val();
     game.teamB = $("#teamB").val();
-    game.scoreA = $("#scoreA").val();
-    game.scoreB = $("#scoreB").val();
-    game.date = $("#date").val();
+    game.round = $("#round").val();
+    game.scoreA = parseInt($("#scoreA").val());
+    game.scoreB = parseInt($("#scoreB").val());
+    var date = $("#date").val();
+    var time = $("#hour").val();
+    var dateutc = new Date(date + "T" + time + ":00").toISOString();
+    game.date = dateutc;
+    game.temp_id = $("#pid").html();
     console.log("Setting new game: " + game.game);
     socket.emit("setGame", game);
   }
@@ -255,13 +251,18 @@ function setGameBtn() {
 function updateGameBtn() {
   if (confirm("Certeza?")) {
     let game = {};
-    game.name = $("#fname").val();
-    game.team = $("#team").val();
-    game.nickname = $("#nname").val();
-    game.number = $("#pnumber").val();
-    game.country = $("#country").val();
-    game.gender = $("#gender").val();
-    game.temp_id = $("#pid").html().substring(4);
+    game.game = $("#game").val();
+    game.field = $("#field").val();
+    game.teamA = $("#teamA").val();
+    game.teamB = $("#teamB").val();
+    game.round = $("#round").val();
+    game.scoreA = parseInt($("#scoreA").val());
+    game.scoreB = parseInt($("#scoreB").val());
+    var date = $("#date").val();
+    var time = $("#hour").val();
+    var dateutc = new Date(date + "T" + time + ":00").toISOString();
+    game.date = dateutc;
+    game.temp_id = $("#pid").html();
     console.log("updating game Info: " + game.name);
     socket.emit("updateGame", game);
   }
@@ -270,8 +271,8 @@ function updateGameBtn() {
 function deleteGameBtn() {
   if (confirm("certeza?")) {
     let game = {};
-    game.name = $("#fname").val();
-    game.temp_id = $("#pid").html().substring(4);
+    game.game = $("#game").val();
+    game.temp_id = $("#pid").html();
     console.log("deleting game Info: " + game.name);
     socket.emit("deleteGame", game);
   } else {

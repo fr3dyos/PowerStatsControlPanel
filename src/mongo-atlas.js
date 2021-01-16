@@ -4,6 +4,7 @@ dotenv.config({ path: "./src/.env" });
 const MongoClient = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectId;
 const Double = require("mongodb").Double;
+const moment = require("moment");
 
 const client = new MongoClient(process.env.MONGODB_URI, {
   useUnifiedTopology: true,
@@ -157,7 +158,6 @@ async function getPlayer(playerid, content, auth) {
     const database = client.db(databaseName);
     const collection = database.collection(collectionPlayers);
     const result = await collection.findOne({ _id: ObjectId(playerid) });
-    await console.log(result);
 
     return result;
   } catch (err) {
@@ -227,9 +227,9 @@ async function getGame(gameid, content, auth) {
     }
     const database = client.db(databaseName);
     const collection = database.collection(collectionSchedule);
-    const result = await collection.findOne({ _id: ObjectId(gameid) });
-    await console.log(result);
-
+    const result = await collection.findOne({ game: gameid });
+    /*var today = moment(new Date()).format('YYYY-MM-DD[T00:00:00.000Z]');
+    result.date = moment(new Date(result.date));*/
     return result;
   } catch (err) {
     console.log(err);

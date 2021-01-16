@@ -119,8 +119,40 @@ tbody,
 th,
 td {
   text-align: center;
+  font-size: 14px;
 }
-
+.table {
+  margin: auto;
+}
+.container {
+  margin: auto;
+}
 .table td {
   text-align: center;
+}
+table.table-fit {
+  width: auto !important;
+  table-layout: auto !important;
+}
+table.table-fit thead th,
+table.table-fit tfoot th {
+  width: auto !important;
+}
+table.table-fit tbody td,
+table.table-fit tfoot td {
+  width: auto !important;
+}
+
+.card-body,
+.card {
+  width: auto !important;
+  text-align: center;
+  margin: auto;
+  display: inline-block;
+}
+
+#cardContainer{
+  width: 800px;
+  margin: auto;
+
 }

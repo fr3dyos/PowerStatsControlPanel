@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Page</title>
+  <%- include ('partials/head') %>
+</head>
+
+<body>
+  <%- include ('partials/navigation') %>
+    <div class="container" id="cardContainer">
+      <div class="card animated flipInY">
+        <div class="card-header bg-dark text-white text-center">
+          <h4 id="pid" style="display: none;"></h4>
+          <h4 id="titleGame"></h4>
+        </div>
+        <div class="card-body bg-dark">
+          <form action="">
+            <div class="form-group">
+
+              <div class="row">
+                <div class="col-sm">
+                  <label for="game">Jogo:</label>
+                  <input class="form-control" type="text" id="game" name="game">
+                </div>
+                <div class="col-sm">
+                  <label for="field">Campo:</label>
+                  <input class="form-control" type="text" id="field" name="field">
+                </div>
+                <div class="col-sm">
+                  <label for="round">Etapa:</label>
+                  <input class="form-control" type="text" id="round" name="round">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm">
+                  <label for="date">Data:</label>
+                  <input class="form-control" type="date" id="date" name="date">
+                </div>
+                <div class="col-sm">
+                  <label for="hour">Hora:</label>
+                  <input class="form-control" type="time" id="hour" name="hour">
+                </div>
+              </div>
+              <br>
+
+              <div class="row">
+                <div class="col-sm">
+                  <label for="teamA">Time A:</label>
+                  <input class="form-control" type="text" id="teamA" name="teamA">
+                </div>
+                <div class="col-sm">
+                  <label for="scoreA">Placar A:</label>
+                  <input class="form-control" type="text" id="scoreA" name="scoreA">
+                </div>
+                <div class="col-sm">
+                  <label for="teamB">Time B:</label>
+                  <input class="form-control" type="text" id="teamB" name="teamB">
+                </div>
+                <div class="col-sm">
+                  <label for="scoreB">Placar B:</label>
+                  <input class="form-control" type="text" id="scoreB" name="scoreB">
+                </div>
+              </div>
+
+            </div>
+          </form>
+
+          <div class="row">
+            <button class="btn btn-primary btn-block" onclick=<%=btnFunction %>>
+              <%- btnTag %>
+            </button>
+          </div>
+          <br>          
+          <div class="row">
+            <button class="btn btn-secondary" onclick="deleteGameBtn();">
+              Apagar
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <%- include ('partials/footer') %>
+      <script>
+        $(document).ready(function () {
+          var pathCurrent = window.location.pathname;
+          if (pathCurrent.substring(0, 6) === "/game-") {
+            var gameId = pathCurrent.substring(6);
+            console.log("Game: " + gameId);
+            try {
+              getGameBtn(gameId);
+            } catch (err) {
+              console.log("no game found");
+              console.log(err);
+            }
+          }
+        });
+      </script>
+
+</body>
+
+</html>

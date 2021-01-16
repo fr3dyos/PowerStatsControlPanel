@@ -50,16 +50,25 @@ function list2H(array) {
 
 function schedule2H(array) {
   var htmlTable =
-    "<thead><tr><th>Jogo</th><th>Hora</th><th>Campo</th><th>Time A</th><th>Gols A</th><th>Gols B</th><th>Time B</th></tr></thead>";
+    "<thead><tr><th>Jogo</th><th>Dia</th><th>Hora</th><th>Campo</th><th>Etapa</th><th>Time A</th><th>Gols A</th><th>Gols B</th><th>Time B</th></tr></thead>";
   htmlTable += "<tbody>";
-  console.log("array:" + array);
   array.forEach(function (element) {
+    var date = new Date(element.date);
+    var year = date.getFullYear() + "";
+    var month = ("0" + date.getMonth()).substr(-2);
+    var day = ("0" + date.getDate()).substr(-2);
+    var hours = ("0" + date.getHours()).substr(-2);
+    var minutes = ("0" + date.getMinutes()).substr(-2);
     htmlTable += '<tr><td><a href="/game-' + element.game + '">';
     htmlTable += element.game + "</a>";
     htmlTable += "</td><td>";
-    htmlTable += element.date;
+    htmlTable += year + "-" + month + "-" + day;
+    htmlTable += "</td><td>";
+    htmlTable += hours + ":" + minutes;
     htmlTable += "</td><td>";
     htmlTable += element.field;
+    htmlTable += "</td><td>";
+    htmlTable += element.round;
     htmlTable += "</td><td>";
     htmlTable += '<a href="/team-' + element.teamA + '">';
     htmlTable += element.teamA + "</a>";

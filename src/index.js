@@ -85,152 +85,151 @@ function newConnection(socket) {
   socket.on("setGame", setGame);
   socket.on("updateGame", updateGame);
   socket.on("deleteGame", deleteGame);
-}
 
-async function getFromSheets(idx) {
-  console.log("Getting data from Spreadsheet");
-  var data = await gSheet.accessSheet(idx);
-  switch (idx) {
-    case 0:
-      await socket.emit("listFromSheets", data);
-      break;
-    case 1:
-      await socket.emit("scheduleFromSheets", data);
-      break;
-    case 2:
-      await socket.emit("logFromSheets", data);
-      break;
+  async function getFromSheets(idx) {
+    console.log("Getting data from Spreadsheet");
+    var data = await gSheet.accessSheet(idx);
+    switch (idx) {
+      case 0:
+        await socket.emit("listFromSheets", data);
+        break;
+      case 1:
+        await socket.emit("scheduleFromSheets", data);
+        break;
+      case 2:
+        await socket.emit("logFromSheets", data);
+        break;
+    }
+  }
+
+  async function setList(data) {
+    console.log("Sending data to database");
+    var flag = await Atlas.setList(data);
+    if (flag) {
+      console.log("Data was send to database succesfully");
+      socket.emit("success", "Lista adicionada com sucesso");
+    } else {
+      console.log("Error while sending data to database");
+      socket.emit("success", "Erro adicionando a Lista");
+    }
+  }
+
+  async function setSchedule(data) {
+    console.log("Sending data to database");
+    var flag = await Atlas.setSchedule(data);
+    if (flag) {
+      console.log("Data was send to database succesfully");
+      socket.emit("success", "Planilha adicionada com sucesso");
+    } else {
+      console.log("Error while sending data to database");
+      socket.emit("success", "Erro adicionando a Planilha");
+    }
+  }
+
+  async function setLog(data) {
+    console.log("Sending data to database");
+    var flag = await Atlas.setLog(data);
+    if (flag) {
+      console.log("Data was send to database succesfully");
+      socket.emit("success", "Log adicionado com sucesso");
+    } else {
+      console.log("Error while sending data to database");
+      socket.emit("success", "Erro adicionando o Log");
+    }
+  }
+
+  async function getList(teamName) {
+    console.log("Getting data from database");
+    const listData = await Atlas.getList(teamName);
+    await socket.emit("listFromDB", listData);
+  }
+
+  async function getSchedule() {
+    console.log("Getting data from database");
+    const scheduleData = await Atlas.getSchedule();
+    await socket.emit("scheduleFromDB", scheduleData);
+  }
+
+  async function getLog() {
+    console.log("Getting data from database");
+    const logData = await Atlas.getLog();
+    await socket.emit("logFromDB", logData);
+  }
+
+  async function getPlayer(playerid) {
+    console.log("Getting data from database");
+    const playerData = await Atlas.getPlayer(playerid);
+    await socket.emit("playerData", playerData);
+  }
+
+  async function setPlayer(player) {
+    console.log("Sending data to database");
+    var flag = await Atlas.setPlayer(player);
+    if (flag) {
+      console.log("Data was send to database succesfully");
+      socket.emit("success", "Dados do jogador adicionados " + player.name);
+    } else {
+      console.log("Error while sending data to database");
+    }
+  }
+
+  async function updatePlayer(player) {
+    console.log("Sending data to database");
+    var flag = await Atlas.updatePlayer(player);
+    if (flag) {
+      console.log("Data was send to database succesfully");
+      socket.emit("success", "Dados do jogador atualizados " + player.name);
+    } else {
+      console.log("Error while sending data to database");
+    }
+  }
+  async function deletePlayer(player) {
+    console.log("Deleting data from database");
+    var flag = await Atlas.deletePlayer(player);
+    if (flag) {
+      console.log("Data was delete from database succesfully");
+      socket.emit("success", "Dados do jogador pagados " + player.name);
+    } else {
+      console.log("Error while deleting data to database");
+    }
+  }
+
+  async function getGame(gameid) {
+    console.log("Getting data from database");
+    const gameData = await Atlas.getGame(gameid);
+    await socket.emit("gameData", gameData);
+  }
+
+  async function setGame(game) {
+    console.log("Sending data to database");
+    var flag = await Atlas.setGame(game);
+    if (flag) {
+      console.log("Data was send to database succesfully");
+      socket.emit("success", "Dados do jogo adicionados " + game.game);
+    } else {
+      console.log("Error while sending data to database");
+    }
+  }
+
+  async function updateGame(game) {
+    console.log("Sending data to database");
+    var flag = await Atlas.updateGame(game);
+    if (flag) {
+      console.log("Data was send to database succesfully");
+      socket.emit("success", "Dados do jogo atualizados " + game.game);
+    } else {
+      console.log("Error while sending data to database");
+    }
+  }
+  async function deleteGame(game) {
+    console.log("Deleting data from database");
+    var flag = await Atlas.deleteGame(game);
+    if (flag) {
+      console.log("Data was delete from database succesfully");
+      socket.emit("success", "Dados do jogo pagados " + game.game);
+    } else {
+      console.log("Error while deleting data to database");
+    }
   }
 }
-
-async function setList(data) {
-  console.log("Sending data to database");
-  var flag = await Atlas.setList(data);
-  if (flag) {
-    console.log("Data was send to database succesfully");
-    socket.emit("success", "Lista adicionada com sucesso");
-  } else {
-    console.log("Error while sending data to database");
-    socket.emit("success", "Erro adicionando a Lista");
-  }
-}
-
-async function setSchedule(data) {
-  console.log("Sending data to database");
-  var flag = await Atlas.setSchedule(data);
-  if (flag) {
-    console.log("Data was send to database succesfully");
-    socket.emit("success", "Planilha adicionada com sucesso");
-  } else {
-    console.log("Error while sending data to database");
-    socket.emit("success", "Erro adicionando a Planilha");
-  }
-}
-
-async function setLog(data) {
-  console.log("Sending data to database");
-  var flag = await Atlas.setLog(data);
-  if (flag) {
-    console.log("Data was send to database succesfully");
-    socket.emit("success", "Log adicionado com sucesso");
-  } else {
-    console.log("Error while sending data to database");
-    socket.emit("success", "Erro adicionando o Log");
-  }
-}
-
-async function getList(teamName) {
-  console.log("Getting data from database");
-  const listData = await Atlas.getList(teamName);
-  await socket.emit("listFromDB", listData);
-}
-
-async function getSchedule() {
-  console.log("Getting data from database");
-  const scheduleData = await Atlas.getSchedule();
-  await socket.emit("scheduleFromDB", scheduleData);
-}
-
-async function getLog() {
-  console.log("Getting data from database");
-  const logData = await Atlas.getLog();
-  await socket.emit("logFromDB", logData);
-}
-
-async function getPlayer(playerid) {
-  console.log("Getting data from database");
-  const playerData = await Atlas.getPlayer(playerid);
-  await socket.emit("playerData", playerData);
-}
-
-async function setPlayer(player) {
-  console.log("Sending data to database");
-  var flag = await Atlas.setPlayer(player);
-  if (flag) {
-    console.log("Data was send to database succesfully");
-    socket.emit("success", "Dados do jogador adicionados " + player.name);
-  } else {
-    console.log("Error while sending data to database");
-  }
-}
-
-async function updatePlayer(player) {
-  console.log("Sending data to database");
-  var flag = await Atlas.updatePlayer(player);
-  if (flag) {
-    console.log("Data was send to database succesfully");
-    socket.emit("success", "Dados do jogador atualizados " + player.name);
-  } else {
-    console.log("Error while sending data to database");
-  }
-}
-async function deletePlayer(player) {
-  console.log("Deleting data from database");
-  var flag = await Atlas.deletePlayer(player);
-  if (flag) {
-    console.log("Data was delete from database succesfully");
-    socket.emit("success", "Dados do jogador pagados " + player.name);
-  } else {
-    console.log("Error while deleting data to database");
-  }
-}
-
-async function getGame(gameid) {
-  console.log("Getting data from database");
-  const gameData = await Atlas.getGame(gameid);
-  await socket.emit("gameData", gameData);
-}
-
-async function setGame(game) {
-  console.log("Sending data to database");
-  var flag = await Atlas.setGame(game);
-  if (flag) {
-    console.log("Data was send to database succesfully");
-    socket.emit("success", "Dados do jogo adicionados " + game.game);
-  } else {
-    console.log("Error while sending data to database");
-  }
-}
-
-async function updateGame(game) {
-  console.log("Sending data to database");
-  var flag = await Atlas.updateGame(game);
-  if (flag) {
-    console.log("Data was send to database succesfully");
-    socket.emit("success", "Dados do jogo atualizados " + game.game);
-  } else {
-    console.log("Error while sending data to database");
-  }
-}
-async function deleteGame(game) {
-  console.log("Deleting data from database");
-  var flag = await Atlas.deleteGame(game);
-  if (flag) {
-    console.log("Data was delete from database succesfully");
-    socket.emit("success", "Dados do jogo pagados " + game.game);
-  } else {
-    console.log("Error while deleting data to database");
-  }
-}
-
 /****************************SOCKET CONFIG****************************/

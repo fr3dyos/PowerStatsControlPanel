@@ -2,9 +2,6 @@ const { GoogleSpreadsheet } = require("google-spreadsheet");
 const creds = require("./client_secret.json");
 const spreadsheetRef = "1u5wL7opIGzHnEaMTXGRuW2AfXdeIrRYXXgLZ2M9Urm0";
 const doc = new GoogleSpreadsheet(spreadsheetRef);
-var dataPlayers = [];
-var dataSchedule = [];
-var dataLog = [];
 var datatemp = [];
 
 const Double = require("mongodb").Double;
@@ -36,7 +33,8 @@ function printSchedule(game) {
     scoreA: 0,
     scoreB: 0,
     teamB: game.teamB,
-    date: new Date(game.date),
+    date: new Date(game.date).toISOString(),
+    round: game.round,
   });
 }
 
@@ -54,7 +52,6 @@ function printLog(ocorrence) {
     player1: { _id: ocorrence.player1, name: ocorrence.player1Name },
     player2: { _id: ocorrence.player2, name: ocorrence.player2Name },
   });
-  
 }
 
 async function accessSheet(idx) {
@@ -94,21 +91,3 @@ async function accessSheet(idx) {
 }
 
 module.exports = { accessSheet };
-
-/*async function accessPlayersSheet() {
-  console.log("Attempt to access Spreadsheet");
-  await doc.useServiceAccountAuth({
-    client_email: creds.client_email,
-    private_key: creds.private_key,
-  });
-
-  await doc.loadInfo(); // loads document properties and worksheets
-  const sheet = doc.sheetsByIndex[0]; // or use doc.sheetsById[id]
-  const rows = await sheet.getRows();
-  dataPlayers = [];
-  await rows.forEach((row) => {
-    printPlayers(row);
-  });
-  console.log("done!");
-  return dataPlayers;
-}*/
