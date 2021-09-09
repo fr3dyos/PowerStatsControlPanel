@@ -1,0 +1,126 @@
+CREATE TABLE bumt_2019_teams (
+  idteam int PRIMARY KEY,
+  name varchar(50),
+  city varchar(50),
+  country varchar(50)
+);
+
+INSERT INTO bumt_2019_teams (idteam,name,city,country) VALUES ('1','Callithrix','Rio de Janeiro','Brasil');
+INSERT INTO bumt_2019_teams (idteam,name,city,country) VALUES ('2','Strix','Brasilia','Brasil');
+INSERT INTO bumt_2019_teams (idteam,name,city,country) VALUES ('3','Macaco Véio','RJSP','Brasil');
+INSERT INTO bumt_2019_teams (idteam,name,city,country) VALUES ('4','Fuego','Montevideo','Uruguay');
+INSERT INTO bumt_2019_teams (idteam,name,city,country) VALUES ('5','Escola SESC E.M. - UF','Rio de Janeiro','Brasil');
+INSERT INTO bumt_2019_teams (idteam,name,city,country) VALUES ('6','Goat Masters','Juiz de Fora','Brasil');
+
+CREATE TABLE bumt_2019_players (
+  idplayer SERIAL PRIMARY KEY,
+  name varchar(50),
+  surname varchar(50),
+  nickname varchar(50),
+  city varchar(50),
+  country varchar(50),
+  number int,
+  gender varchar(20),
+  idteam int NULL,
+  foreign key (idteam) references ps_teams(idteam)
+);
+
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('1','Giovanni','Corso','Giovanni','Brasilia','Brasil','10','M','2');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('2','Antoine','Liron','Antoine','Tahiti','França','99','F','1');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('3','Manu','Martins','Manu','Rio de Janeiro','Brasil','0','M','1');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('4','João','Gomes','João','Rio de Janeiro','Brasil','14','M','5');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('5','Alberto','Coralli','Alberto','Milão','Italia','12','F','3');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('6','Matheus','Feitosa','Matheus','Brasilia','Brasil','19','F','5');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('7','Michel','Cancella','Michel','Juiz de fora','Brasil','12','M','6');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('8','Michel','Yamamoto','Michel','Brasilia','Brasil','11','M','2');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('9','João','Zambrini','João','São paulo','Brasil','13','F','3');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('10','Óscar','León','Óscar','Málaga','Colombia','69','F','4');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('11','Mateus','Resende','Mateus','Brasilia','Brasil','5','M','2');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('12','Adriano','Pereira','Adriano','Juiz de fora','Brasil','3','M','6');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('13','Fredy','Gutierrez','Fredy','Bogotá','Colombia','77','M','1');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('14','Luciano','Dos Santos','Luciano','Brasilia','Brasil','21','M','2');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('15','Anton','Donle','Anton','Berlim','Alemanha','5','M','6');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('16','Jefferson','Almeida','Jefferson','São Paulo','Brasil','21','M','4');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('17','Arthur','Avelino','Arthur','Brasilia','Brasil','99','M','2');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('18','Pedro','Rizzo','Pedro','São Paulo','Brasil','23','M','3');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('19','Pedro','Torres','Pedro','Brasilia','Brasil','81','M','2');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('20','Jean','Moreira','Jean','Brasilia','Brasil','16','M','5');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('21','Omar','Pandoli','Omar','Roma','Italia','55','M','3');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('22','Mateus','Roquetti','Mateus','São Paulo','Brasil','27','M','4');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('23','André','Borba','André','São Paulo','Brasil','81','M','3');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('24','Shawn','Biore','Shawn','Montreal','Canadá','0','M','3');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('25','Esteban','Caldero','Esteban','Medellin','Colombia','12','M','1');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('26','Leonardo','Michalowski','Leonardo','São Paulo','Brasil','20','M','5');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('27','Iago','Costa','Iago','São Paulo','Brasil','12','M','5');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('28','Lucas','Santos','Lucas','São Paulo','Brasil','18','M','5');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('29','Santiago','Navarrete','Santiago','Bogotá','Colombia','10','M','4');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('30','Sebastián','Barcia','Sebastián','Montevideo','Uruguay','72','M','4');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('31','Juan','Zamora','Juan','Caracas','Venezuela','20','M','4');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('32','José','Moraes','José','São Paulo','Brasil','33','M','3');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('33','Marcos','Santana','Marcos','São Paulo','Brasil','13','M','5');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('34','Carlos','Aguilera','Carlos','Bogotá','Colombia','13','M','6');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('35','Daniel','Silva','Daniel','Brasilia','Brasil','6','M','2');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('36','Jean','Rattia','Jean','Caracas','Venezuela','20','M','1');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('37','Wallace','Cimino','Wallace','Juiz de fora','Brasil','96','M','6');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('38','Victor','Moneuse','Victor','Marselle','França','71','M','1');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('39','Oskar','Didt','Oskar','Berlim','Alemanha','42','M','4');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('40','Gabriel','Salles','Gabriel','Juiz de fora','Brasil','77','M','6');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('41','Ventine','Silva','Ventine','Rio de Janeiro','Brasil','42','M','1');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('42','André','Felix','André','Rio de Janeiro','Brasil','17','M','5');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('43','Davi','Da Silva','Davi','Florianopolis','Brasil','8','M','5');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('44','Thiago','Paula','Thiago','Juiz de fora','Brasil','29','M','6');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('45','Carlos','Marquez','Carlos','Maracaibo','Venezuela','2','M','4');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('46','Luan','Lopes','Luan','Juiz de fora','Brasil','99','M','6');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('47','Bruno','Correa','Bruno','Brasilia','Brasil','99','M','3');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('48','Emilly','Souza','Emilly','São Paulo','Brasil','7','M','5');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('49','Giulia','Corrêa','Giulia','Rio de Janeiro','Brasil','3','M','5');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('50','Lívia','Lima','Lívia','Rio de Janeiro','Brasil','9','M','5');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('51','Andreza','Pereira','Andreza','Rio de Janeiro','Brasil','12','M','6');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('52','Luz','Osorio','Luzka','Manizales','Colombia','35','M','3');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('53','Daniela','Capozzolo','Daniela','Montevideo','Uruguay','23','M','4');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('54','Clarissa','Andrade','Clarissa','Juiz de fora','Brasil','4','M','6');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('55','Mariana','Campos','Mariana','Brasilia','Brasil','13','M','2');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('56','Bruna','Luchine','Bruna','Brasilia','Brasil','22','M','2');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('57','Millena','Santos','Millena','Florianopolis','Brasil','5','M','5');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('58','Victoria','Santos','Victoria','Rio de Janeiro','Brasil','15','M','5');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('59','Malela','Paredes','Malela','São Paulo','Brasil','9','M','3');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('60','Flor','Barcia','Flor','Montevideo','Uruguay','33','M','4');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('61','Vesper','Cardelino','Vesper','Brasilia','Brasil','50','M','3');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('62','Eliane','Assis','Eliane','São Paulo','Brasil','81','M','1');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('63','Maite','Cuadrado','Maite','Montevideo','Uruguay','20','M','1');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('64','Elora','Dos Reis','Elora','Brasilia','Brasil','0','M','6');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('65','Wiliana','Da silva','Wiliana','Brasilia','Brasil','7','M','5');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('66','Renata','Aguiar','Renata','Brasilia','Brasil','12','M','2');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('67','Marina','Sanchez','Marina','Málaga','Espanha','18','M','3');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('68','Valentina','Busetta','Valentina','Roma','Italia','5','M','4');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('69','Rhaama','Ramos','Rhaama','São Paulo','Brasil','65','M','4');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('70','Tatiana','Guinard','Tatiana','Rio de Janeiro','Brasil','34','M','1');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('71','Camila','Costa','Camila','Rio de Janeiro','Brasil','52','M','2');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('72','Ana','Herrera','Ana','Bucaramanga','Colombia','70','M','1');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('73','Paula','Freitas','Paula','Brasilia','Brasil','8','M','2');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('74','Bianka','Quintans','Bianka','São Paulo','Brasil','4','M','1');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('75','Marisé','Ramos','Marisé','Caracas','Venezuela','79','M','3');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('76','Alessandra','De Mello','Alessandra','Brasilia','Brasil','89','M','2');
+INSERT INTO  bumt_2019_players (idplayer,name,surname,nickname,city,country,number,gender,idteam) VALUES ('77','Annelise','Krüger','Annelise','Belo horizonte','Brasil','29','M','6');
+
+<?php
+
+global $wpdb;
+$result = $wpdb->get_results( "SELECT * FROM ps_teams ");
+
+echo "<style>";
+echo "body {font-family: Arial;}";
+
+echo ".table_container { padding: 10px 12px 0px 12px;  border: 1px solid #ccc;  }";
+echo ".table_container th { background-color:red; color:white; font-weight:bold; border-left: 1px solid white;}";
+echo "</style></head>";
+echo "<body>";
+
+echo "<div class=\"table_container\"><table>";
+echo "<tr><th style=\"padding-left:10px;\">idteams</th> <th>name</th> <th>city</th> <th>country</th> </tr>";
+foreach ($result as $row) {
+	echo "<tr><td>" . $row->idteams . "</td> <td>" . $row->name . "</td><td>" . $row->city . "</td><td>" . $row->country . "</td></tr>";
+}
+echo "</table></div>";
+
+?>

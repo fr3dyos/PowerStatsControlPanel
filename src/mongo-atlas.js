@@ -10,7 +10,7 @@ const client = new MongoClient(process.env.MONGODB_URI, {
   useUnifiedTopology: true,
 });
 
-const databaseName = "CBBU2021"; //name of the tournamen
+const databaseName = "CBBU2021"; //name of the tournament
 const collectionPlayers = "Players"; //name of the table
 const collectionSchedule = "Schedule"; //name of the table
 const collectionLog = "Log"; //name of the table
